@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_food/pages/login/login_page.dart';
+import 'package:flutter_food/pages/login/home_page.dart';
+
 import 'pages/login/login_page.dart';
 
 void main() {
@@ -13,20 +14,35 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.red,
         textTheme: const TextTheme(
           headline1: TextStyle(
             fontSize: 30.0,
             fontWeight: FontWeight.bold,
           ),
           headline6: TextStyle(
-            fontSize: 30.0,
+            fontSize: 24.0,
             fontWeight: FontWeight.bold,
           ),
-          bodyText1: TextStyle(fontSize: 14.0),
+          bodyText2: TextStyle(
+            fontSize: 18.0,
+          ),
+          headline4: TextStyle(
+              fontSize: 24.0,
+              color: Colors.white
+          ),
+          headline5: TextStyle(
+              fontSize: 16.0,
+              color: Colors.white
+          ),
         ),
       ),
-      home: LoginPage(),
+      //home: LoginPage(),
+      routes: {
+        LoginPage.routeName : (context) => const LoginPage(),
+        HomePage.routeName : (context) => const HomePage(),
+      },
+      initialRoute: LoginPage.routeName,
     );
   }
 }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'home_page.dart';
+import 'package:flutter_food/pages/home/home_page.dart';
 
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 class LoginPage extends StatefulWidget {
   static const routeName = '/login';
 
@@ -11,7 +13,6 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-
   static const pin = '123456';
   var input = '';
 
@@ -29,7 +30,7 @@ class _LoginPageState extends State<LoginPage> {
               1.0,
             ],*/
             colors: [
-              Colors.blue,
+              Colors.white,
               //Color(0xFFD8D8D8),
               //Color(0xFFAAAAAA),
               Theme.of(context).colorScheme.background.withOpacity(0.5),
@@ -134,20 +135,31 @@ class _LoginPageState extends State<LoginPage> {
   void _handleClickButton(int num) {
     print('You pressed $num');
 
-    setState(() {
+    setState(()  async {
       if (num == -1) {
         if (input.length > 0) input = input.substring(0, input.length - 1);
       } else {
         input = '$input$num';
       }
 
-      if (input.length == pin.length) {
-        if (input == pin) {
+      if (input.length == 6) {
+
+        var url = Uri.parse('https://cpsu-test-api.herokuapp.com/login');
+        var response = await http.post(url, body:
+        {
+          "pin" : input
+        }
+        );
+
+        Map<String, dynamic> jsonBody = json.decode(response.body);
+        bool data = jsonBody['data'];
+        print("data: $data");
+        if (data) {
           /*Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (context) => const HomePage()),
           );*/
-          Navigator.pushReplacementNamed(context, '/home');
+          Navigator.pushReplacementNamed(context, HomePage.routeName);
         } else {
           _showMaterialDialog('ERROR', 'Invalid PIN. Please try again.');
         }
